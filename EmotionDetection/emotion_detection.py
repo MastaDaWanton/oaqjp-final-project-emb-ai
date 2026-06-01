@@ -1,6 +1,6 @@
 """
-Module for detecting emotions from text
-using the Watson NLP library
+    Module for detecting emotions from text
+    using the Watson NLP library
 """
 import json
 import requests
@@ -24,6 +24,21 @@ def emotion_detector(text_to_analyze):
     myobj = { "raw_document": { "text": text_to_analyze }}
 
     response = requests.post(url, json=myobj, headers=headers, timeout=10)
+
+    """
+    added error handling
+"""
+
+    if response.status_code == 400:
+        
+        return {
+            'anger' : None,
+            'disgust' : None,
+            'fear' : None,
+            'joy' : None,
+            'sadness' : None,
+            'dominant_emotion' : None
+        }
 
     # converting response into json format
     formatted_response = json.loads(response.text)
